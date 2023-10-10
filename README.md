@@ -11,7 +11,7 @@ Members:
 4. Ishita Srivastava: [@oi-taa](https://github.com/oi-taa)
 
 
-## CurrencyExchangeAgent
+## Currency Exchange Agent
 
 This is an AI agent that utilizes **Fetch.ai’s uAgents library** to:
  1. Allows users to select their base currency and one or more foreign currencies they wish to monitor.
