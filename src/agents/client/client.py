@@ -12,6 +12,8 @@ periodically sending displaying exchange rates to user
 and displaying alerts when required
 
 '''
+#Fetch Time
+period = 60.0
 
 #taking inputs from user
 base_currency = input("enter base currency eg. USD: ")
@@ -25,7 +27,7 @@ secondary_currencies, min_threshold, max_threshold = convert(secondary_currencie
 #after recieving rates, it will display rates and alerts
 client = Agent(name="Clinet Agent")
 
-@client.on_interval(period=60.0, messages= FetchRequest)
+@client.on_interval(period=period, messages= FetchRequest)
 async def fetch_rates(ctx: Context):
     '''
     this is a periodic asynchronus funtion for sending fetch request
@@ -47,9 +49,8 @@ async def print_rates(ctx: Context,_sender: str, msg: FetchResponse):
         #as exchange rates update frequency is 1 min
 
         #creating log line which will be added to log.txt
-        log = ""
         ctx.logger.info(f"rates are: {msg.rates}  w.r.t base {base_currency}")
-        log +=f"base currency: {base_currency} secondary currency: {str(msg.rates)} "
+        
         #checking for threshold violation
         for i in msg.rates.keys():
             if (msg.rates[i] >= max_threshold[i]) or (msg.rates[i]<=min_threshold[i]):
@@ -59,11 +60,7 @@ async def print_rates(ctx: Context,_sender: str, msg: FetchResponse):
     else:
         #displays error if error occured during fetching rates
         ctx.logger.error("Not able to fetch rates")
-        log = "Error" # log = error in case rates were not fetched
-
-    with open(".././log.txt","a") as f:
-        f.write(f"\n{log}")#finally writing log to the log file
-        f.close()
+        
             
 
     

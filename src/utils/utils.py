@@ -1,5 +1,8 @@
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 '''
 this file defines two utility functions
@@ -10,7 +13,7 @@ this file defines two utility functions
 '''
 
 
-#function to convert user input
+#function to convert user input(Sting to List).
 def convert(secondary, min_threshold, max_threshold):
     s = secondary.split()
     tmin = min_threshold.split()
@@ -58,6 +61,13 @@ def get_rate(secondary_currencies,base_currency="EUR"):
     assert status_code==200 #raise assertionError if some problem during fetching occured
 
     result = response.json()
+
+    log= ""
+    log +=f"{response.json()}"
+    
+    with open(".././log.txt","a") as f:
+        f.write(f"\n{log}")#finally writing log to the log file
+        f.close()
 
     #converting result to out desired format
     final_dict = {}
